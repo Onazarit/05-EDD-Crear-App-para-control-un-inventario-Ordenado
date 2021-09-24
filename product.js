@@ -1,9 +1,9 @@
 export default class Product{
-    constructor(id,name,quantity,quality){
+    constructor(id,name,quantity,price){
         this._id = id;
         this._name = name;
         this._quantity = quantity;
-        this._quality = quality;
+        this._price = price;
     }
 
     getId(){
@@ -18,12 +18,12 @@ export default class Product{
         return(this._quantity);
     }
 
-    getQuality(){
-        return(this._quality);
+    getPrice(){
+        return(this._price);
     }
 
     getTotal(){
-        let total = this._quality * this._quantity;
+        let total = this._quality * this._price;
         return(total);
     }
 

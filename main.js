@@ -1,44 +1,54 @@
 import Product from "./product.js";
+import Storage from "./storage.js";
 
 class Main{
     constructor(){
-        this._btnAdd = document.querySelector("#btnAdd");
-        this._btnDelete = document.querySelector("#btnDelete");
-        this._btnSearch = document.querySelector("#btnSearch");
-        this._btnShowAll = document.querySelector("#btnShowAll");
-        this._btnShowAllInv = document.querySelector("#btnShowAllInv");
-        this._btnAddOnPos = document.querySelector("#btnAddOnPos");
+        const btnAdd = document.getElementById("btnAdd");
+        const btnDelete = document.getElementById("btnDelete");
+        const btnSearch = document.getElementById("btnSearch");
+        const btnShowAll = document.getElementById("btnShowAll");
+        const btnShowAllInv = document.getElementById("#tnShowAllInv");
+        const btnAddOnPos = document.getElementById("btnAddOnPos");
 
-        this._storage = [];
+        this._storage = new Storage();
 
-        this._resultados = document.getElementById("resultados");
-        this._child = document.createElement("p");
-        let text = document.createTextNode("Aqui se veran los resultados");
-        this._child.appendChild(text);
-        this._resultados.appendChild(this._child);
+        btnAdd.addEventListener('click', this._addToList);
+        btnDelete.addEventListener('click', this._removeFromList);
+        btnSearch.addEventListener('click', this._searchFromList);
+        btnShowAll.addEventListener('click', this._ShowAll);
+        btnShowAllInv.addEventListener('click', this._ShowAllInv);
+        btnAddOnPos.addEventListener('click', this._addOnPos);
+    }
 
-        this._btnAdd.addEventListener('click', this._addToList);
-        this._btnDelete.addEventListener('click', this._removeFromList);
-        this._btnSearch.addEventListener('click', this._searchFromList);
-        this._btnShowAll.addEventListener('click', this._ShowAll);
-        this._btnShowAllInv.addEventListener('click', this._ShowAllInv);
-        this._btnAddOnPos.addEventListener('click', this._addOnPos);
+    sendMessage(tipo,text){
+        let detalles = document.getElementById("detalles");
+        detalles.innerHTML=`
+            <h2>${tipo}</h2>
+            <p>${text}
+        `;
     }
 
     _addToList = () => {
-        let product = Product.readForm();
+        let codigo = document.getElementById("id").value;
+        let nombre = document.getElementById("name").value;
+        let cantidad = document.getElementById("quantity").value;
+        let precio = document.getElementById("price").value;
+
+        let producto = new Product(codigo,nombre,cantidad,precio);
         
+        let aux = this._storage.add(producto);
+
         if(this._storage.length >= 20){ //Capacidad de almacenamiento
-            this.sendMessage("Fallo al registrar, el inventario esta lleno");
+            this.sendMessage("Añadir","Fallo al registrar, el inventario esta lleno");
+            return;
+        }
+
+        if(aux == false){
+            this.sendMessage("Añadir","Fallo al registrar, el producto ya esta ingresado");
             return;
         }
         
-        if(product == false){
-            this.sendMessage("Fallo al registrar, intenta revisar los campos");
-            return;
-        }
-        this._storage.push(product);
-        this.sendMessage(`Registro completo, se añadieron: [${product.getQuantity()} unidades de ${product.getName()} a ${product.getQuality()} C/U]`);
+        this.sendMessage("Añadir",`Registro completo, se añadieron: [${producto.getQuantity()} unidades de ${producto.getName()} a ${producto.getPrice()} C/U]`);
     }
 
     _removeFromList = () => {
@@ -131,13 +141,7 @@ class Main{
     
     }
 
-    sendMessage(text){
-        let message = document.createElement("p");
-        let textIn = document.createTextNode(text);
-        message.appendChild(textIn);
-        this._resultados.replaceChild(message,this._child);
-        this._child = message;
-    }
+    
 }
 
 new Main();

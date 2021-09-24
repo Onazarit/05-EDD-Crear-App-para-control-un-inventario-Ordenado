@@ -52,21 +52,9 @@ class Main{
     }
 
     _removeFromList = () => {
-        let inpId = document.querySelector("#id");
-        let productId = Number(inpId.value);
-        let pos = this._storage.findIndex( (p) => {
-            if(p.getId() == productId){
-                return(true);
-            }else {
-                return(false);
-            }
-        });
-        if(pos >= 0){
-            this.sendMessage(`Se ha removido el producto [${this._storage[pos].getName()}] de la lista`);
-            this._storage.splice(pos,1);
-            return;
-        }
-        this.sendMessage(`No se encontro el producto a eliminar`);
+        let codigo = document.getElementById("id").value;
+        let result = this._storage.remove(codigo);
+        this.sendMessage("Eliminar",result);
         console.log(this._storage);
     }
 

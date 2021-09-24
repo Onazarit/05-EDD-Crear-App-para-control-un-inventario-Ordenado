@@ -8,6 +8,7 @@ export default class Storage{
             return(false);
         }
         this._storage.push(product);
+        this._sortStorage();
         return(true);
     }
 
@@ -72,6 +73,21 @@ export default class Storage{
             }
         });
         return(aux);
+    }
+
+    _sortStorage(){
+        if(this._storage.length >= 2){
+            for(let i = 1; i<this._storage.length; i++){
+                for(let j = this._storage.length-1; j>=i;j--){
+                    console.log(this._storage[j-1]);
+                    if(this._storage[j-1].getId() > this._storage[j].getId()){
+                        let aux = this._storage[j-1];
+                        this._storage[j-1] = this._storage[j];
+                        this._storage[j] = aux;
+                    }
+                }
+            }
+        }
     }
 
 }

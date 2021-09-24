@@ -27,7 +27,21 @@ export default class Storage{
         return(`No se encontro el producto a eliminar`);
     }
 
-    _exists(id){
+    search(id){
+        let pos = this._storage.findIndex( (p) => {
+            if(p.getId() == id){
+                return(true);
+            }else {
+                return(false);
+            }
+        });
+        if(pos >= 0){
+            return(`El producto con codigo ${this._storage[pos].getId()} encontrado fue:  [${this._storage[pos].getQuantity()} unidades de ${this._storage[pos].getName()} a ${this._storage[pos].getPrice()} c/u]`);
+        }
+        return(`No se encontro el producto buscado`);
+    }
+
+    _exists(id){ // Funcion para que al añadir revise que no haya un producto con mismo ID
         let aux = false;
         this._storage.forEach((p) =>{
             if(p.getId() == id){

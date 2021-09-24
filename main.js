@@ -59,21 +59,9 @@ class Main{
     }
 
     _searchFromList = () => {
-        let inpId = document.querySelector("#id");
-        let productId = Number(inpId.value);
-        let pos = this._storage.findIndex( (p) => {
-            if(p.getId() == productId){
-                return(true);
-            }else {
-                return(false);
-            }
-        });
-
-        if(pos >= 0){
-            this.sendMessage(`El producto con codigo ${this._storage[pos].getId()} encontrado fue:  [${this._storage[pos].getQuantity()} unidades de ${this._storage[pos].getName()} a ${this._storage[pos].getQuality()} c/u]`);
-            return;
-        }
-        this.sendMessage(`No se encontro el producto buscado`);
+        let codigo = document.getElementById("id").value;
+        let result = this._storage.search(codigo);
+        this.sendMessage("Buscar",result);
     }
 
     _ShowAll = () => {

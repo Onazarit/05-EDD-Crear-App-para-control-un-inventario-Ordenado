@@ -23,7 +23,7 @@ export default class Product{
     }
 
     getTotal(){
-        let total = this._quality * this._price;
+        let total = this._quantity * this._price;
         return(total);
     }
 }

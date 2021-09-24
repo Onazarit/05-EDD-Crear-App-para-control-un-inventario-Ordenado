@@ -41,6 +41,29 @@ export default class Storage{
         return(`No se encontro el producto buscado`);
     }
 
+    showAll(){
+        let text = "Los productos en la lista son: <br>";
+        let total = 0;
+        this._storage.forEach((p) => {
+            text = text + `[Codigo ${p.getId()}: ${p.getName()} ${p.getQuantity()} unidades, $${p.getPrice()} C/U] <br>`
+            total += p.getTotal();
+        });
+        text += `Total = $ ${total}`;
+        return(text);
+    }
+
+    showAllInv(){
+        let text = "Los productos en la lista invertida son: <br>";
+        let total = 0;
+        this._storage.reverse().forEach((p) => {
+            text = text + `[Codigo ${p.getId()}: ${p.getName()} ${p.getQuantity()} unidades, $${p.getPrice()} C/U] <br>`
+            total += p.getTotal();
+        });
+        text += `Total = $ ${total}`;
+        this._storage.reverse();
+        return(text);
+    }
+
     _exists(id){ // Funcion para que al añadir revise que no haya un producto con mismo ID
         let aux = false;
         this._storage.forEach((p) =>{

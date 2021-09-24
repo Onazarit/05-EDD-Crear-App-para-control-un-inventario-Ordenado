@@ -7,8 +7,7 @@ class Main{
         const btnDelete = document.getElementById("btnDelete");
         const btnSearch = document.getElementById("btnSearch");
         const btnShowAll = document.getElementById("btnShowAll");
-        const btnShowAllInv = document.getElementById("#tnShowAllInv");
-        const btnAddOnPos = document.getElementById("btnAddOnPos");
+        const btnShowAllInv = document.getElementById("btnShowAllInv");
 
         this._storage = new Storage();
 
@@ -17,7 +16,6 @@ class Main{
         btnSearch.addEventListener('click', this._searchFromList);
         btnShowAll.addEventListener('click', this._ShowAll);
         btnShowAllInv.addEventListener('click', this._ShowAllInv);
-        btnAddOnPos.addEventListener('click', this._addOnPos);
     }
 
     sendMessage(tipo,text){
@@ -65,58 +63,14 @@ class Main{
     }
 
     _ShowAll = () => {
-        let text = "Los productos en la lista son: ";
-        let total = 0;
-        this._storage.forEach((p) => {
-            text = text + `[Codigo ${p.getId()}: ${p.getName()} ${p.getQuantity()} unidades, $${p.getQuality()} C/U] `
-            total += p.getTotal();
-        });
-        text += `Total = ${total}`;
-        this.sendMessage(text);
+        let text = this._storage.showAll();
+        this.sendMessage("Buscar",text);
     }
 
     _ShowAllInv = () => {
-        let text = "Los productos en la lista son: ";
-        let total = 0;
-        this._storage.reverse().forEach((p) => {
-            text = text + `[Codigo ${p.getId()}: ${p.getName()} ${p.getQuantity()} unidades, $${p.getQuality()} C/U] `
-            total += p.getTotal();
-        });
-        text += `Total = ${total}`;
-        this.sendMessage(text);
-        this._storage.reverse();
+        let text = this._storage.showAllInv();
+        this.sendMessage("Buscar Invertido",text);
     }
-
-    _addOnPos = () => {
-        let product = Product.readForm();
-        let inpPos = document.querySelector("#position");
-        let position = Number(inpPos.value);
-        inpPos.value = "";
-
-        if(this._storage.length >= 20){ //Capacidad de almacenamiento
-            this.sendMessage("Fallo al registrar, el inventario esta lleno");
-            return;
-        }
-        
-        if(product == false){
-            this.sendMessage("Fallo al registrar, intenta revisar los campos");
-            return;
-        }
-
-        if(position >= this._storage.length){
-            this.sendMessage("Fallo al registrar, no hay lugar donde insertar");
-            return;
-        }
-
-        let aux = this._storage.splice(position-1);
-        this._storage.push(product);
-        aux.forEach((p) =>{
-            this._storage.push(p);
-        });
-        this.sendMessage(`Registro completo, se añadio: ${product.getName()} en la posición ${position}`);
-    
-    }
-
     
 }
 

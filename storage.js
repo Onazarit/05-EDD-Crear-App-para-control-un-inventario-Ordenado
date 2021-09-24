@@ -25,7 +25,7 @@ export default class Storage{
             this._storage.splice(pos,1);
             return(text);
         }
-        return(`No se encontro el producto a eliminar`);
+        return(null);
     }
 
     search(id){

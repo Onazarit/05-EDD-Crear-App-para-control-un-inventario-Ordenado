@@ -53,7 +53,6 @@ class Main{
         let codigo = document.getElementById("id").value;
         let result = this._storage.remove(codigo);
         this.sendMessage("Eliminar",result);
-        console.log(this._storage);
     }
 
     _searchFromList = () => {
